@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You ❤️</title>
+
+    <style>
+        body {
+            margin: 0;
+            background: black;
+            overflow: hidden;
+            font-family: monospace;
+            color: white;
+        }
+
+        .center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            background: pink;
+        }
+
+        /* Text */
+        #text {
+            white-space: pre-wrap;
+            font-size: 20px;
+            padding: 20px;
+            z-index: 2;
+            position: relative;
+        }
+
+        /* Slideshow */
+        #slideshow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #slideshow img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 2s;
+        }
+
+        /* Hearts */
+        .heart {
+            position: absolute;
+            color: red;
+            animation: float 5s linear infinite;
+        }
+
+        @keyframes float {
+            from {
+                transform: translateY(100vh);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateY(-10vh);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="center" id="lockScreen">
+        <h2>Enter Password ❤️</h2>
+        <input type="password" id="password">
+        <br>
+        <button onclick="unlock()">Unlock 💖</button>
+    </div>
+
+    <div id="mainContent" style="display:none;">
+        <div id="slideshow"></div>
+        <div id="text"></div>
+    </div>
+
+    <audio id="music" loop>
+        <!-- IMPORTANT: replace this with your own audio file for best result -->
+        <source src="your-music.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        let correctPassword = "21022021";
+
+        function unlock() {
+            let input = document.getElementById("password").value;
+
+            if (input === correctPassword) {
+                document.getElementById("lockScreen").style.display = "none";
+                document.getElementById("mainContent").style.display = "block";
+
+                startEverything();
+            } else {
+                alert("Wrong password 😢");
+            }
+        }
+
+        /* START EVERYTHING AFTER USER ACTION */
+        function startEverything() {
+            playMusic();
+            typeWriter();
+            createHearts();
+        }
+
+        /* SOUND FIX (tap anywhere fallback) */
+        function playMusic() {
+            let music = document.getElementById("music");
+
+            music.play().catch(() => {
+                document.body.addEventListener("click", () => {
+                    music.play();
+                }, { once: true });
+            });
+        }
+
+        /* LETTER */
+        let letter = `Dear Ayesha ❤️,
+I think it is very rare that I have ever called you Ayesha,
+especially when it is just the two of us. 
+
+So I want to say that I love you.
+Happy Birthday and stay bless.
+
+Maybe this won’t make you feel the way I am wishing you to feel, but maybe it will.
+Still, I tried to make you feel special through this coding way of wishing you.
+And I will let you know that this whole idea is mine but I executed it through AI.
+
+Allah apko Khush rakhy hamesha, apki hifazat kary or hr kism ki bimarion, dukhon or takleefon se
+b dor rakhy apko. Ameen - Ameen - Ameen
+
+And now the Praising words begin :)
+From the moment you came into my life,
+everything started to feel more beautiful.
+
+Your smile is my peace, (AI ne Likha)
+your voice is my favorite sound, (AI ne Likha)
+and your presence is my greatest blessing. (AI ne Likha)
+
+I love you more than words can ever express ❤️
+
+Happy Birthday 🎂
+
+Your Khasam,
+Sunny`;
+
+        let i = 0;
+
+        function typeWriter() {
+            if (i < letter.length) {
+                document.getElementById("text").innerHTML += letter.charAt(i);
+                i++;
+                setTimeout(typeWriter, 60);
+            }
+        }
+
+        /* HEARTS */
+        function createHearts() {
+            setInterval(() => {
+                let heart = document.createElement("div");
+                heart.classList.add("heart");
+                heart.innerHTML = "❤️";
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.fontSize = (10 + Math.random() * 30) + "px";
+
+                document.body.appendChild(heart);
+
+                setTimeout(() => heart.remove(), 5000);
+            }, 300);
+        }
+
+    </script>
+
+</body>
+
+</html>
